@@ -1,1 +1,1 @@
-inputString = open("Input/Day 21.txt", "r").read().splitlines()
+with open("Input/Day 21.txt", "r") as f: inputString = f.read().splitlines()
