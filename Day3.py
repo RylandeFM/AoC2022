@@ -3,7 +3,7 @@ with open("Input/Day 3.txt", "r") as f: inputString = f.read().splitlines()
 def partOne():
     sum = 0
     for line in inputString:
-        dupeList = [x for x in set(line[:int(len(line)/2)]) if x in set(line[int(len(line)/2):])]
+        dupeList = [x for x in set(line[:len(line)//2]) if x in set(line[len(line)//2:])]
         sum += getPriority(dupeList[0])
     print(sum)
 
