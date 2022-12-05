@@ -8,7 +8,7 @@ stacks = stacks.split("\n")
 instructions = instructions.split("\n")
 
 def parseInput():
-    stackList, maxStacks, charsPerStack = [], max([int(x.strip()) for x in stacks[-1].split("   ")]), 4
+    stackList, maxStacks, charsPerStack = [], max([int(x) for x in stacks[-1].split("   ")]), 4
 
     for stackNumber in range(maxStacks):
         column, index = deque(), stackNumber * charsPerStack + 1
