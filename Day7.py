@@ -10,11 +10,11 @@ def parseFileSystem():
             fs[currentDir + "/" + instr[1]] = {'parentDir': currentDir, 'subDirs': [], 'files': []}
             fs[currentDir]['subDirs'].append(currentDir + "/" + instr[1])
         elif instr[0] != "$":
-            fs[currentDir]['files'].append((instr[1], int(instr[0])))
+            fs[currentDir]['files'].append(int(instr[0]))
     return fs
 
 def getSize(curDir, fs):
-    totalSize = sum([x[1] for x in fs[curDir]['files']])
+    totalSize = sum([x for x in fs[curDir]['files']])
     for subDir in fs[curDir]['subDirs']:
         totalSize += getSize(subDir, fs)
     return totalSize
