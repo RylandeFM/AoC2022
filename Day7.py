@@ -1,14 +1,14 @@
 with open("Input/Day 7.txt", "r") as f: inputString = f.read().splitlines()
 
 def parseFileSystem():
-    fs, currentDir = {'/': {'parentDir':'', 'subDirs':[], 'files':[]}}, '/'
+    fs, currentDir = {'/': {'parentDir': '', 'subDirs': [], 'files': []}}, '/'
     for instr in inputString[2:]:
         instr = instr.split(" ")
-        if instr[0] == "$" and instr[1]=="cd":
-            currentDir = currentDir+"/"+instr[2] if instr[2] != ".." else fs[currentDir]['parentDir']
+        if instr[0] == "$" and instr[1] == "cd":
+            currentDir = currentDir + "/" + instr[2] if instr[2] != ".." else fs[currentDir]['parentDir']
         elif instr[0] == "dir":
-            fs[currentDir+"/"+instr[1]] = {'parentDir':currentDir, 'subDirs':[], 'files':[]}
-            fs[currentDir]['subDirs'].append(currentDir+"/"+instr[1])
+            fs[currentDir + "/" + instr[1]] = {'parentDir': currentDir, 'subDirs': [], 'files': []}
+            fs[currentDir]['subDirs'].append(currentDir + "/" + instr[1])
         elif instr[0] != "$":
             fs[currentDir]['files'].append((instr[1], int(instr[0])))
     return fs
