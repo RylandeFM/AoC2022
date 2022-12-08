@@ -43,7 +43,7 @@ def findBestSpot():
     
     print(len(visible))
 
-    #Optimization that does not work for all cases
+    #Optimization that does not work for all cases, but seemingly works for AoC generated inputs
     #nonEdges = [(x, y) for (x, y) in visible if (x not in [0, len(treeMap[0])-1] and y not in [0, len(treeMap)-1])]
     nonEdges = [(x, y) for x in range(1, len(treeMap) - 1) for y in range(1, len(treeMap) - 1)]
     
