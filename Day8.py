@@ -6,7 +6,7 @@ treeMap = []
 for line in inputString:
     treeMap.append(list([int(x) for x in line]))
 
-def checkAxis(axis, start, stop, step, tree, height):
+def scoreAxisFromTree(axis, start, stop, step, tree, height):
     score = 0
 
     for i in range(start, stop, step):
@@ -50,10 +50,10 @@ def findBestSpot():
     for tree in nonEdges:
         height, scores = treeMap[tree[1]][tree[0]], []
 
-        scores.append(checkAxis("x", tree[0] + 1, len(treeMap[0]), 1, tree, height)) #look right
-        scores.append(checkAxis("x", tree[0] - 1, -1, -1, tree, height)) #look left    
-        scores.append(checkAxis("y", tree[1] + 1, len(treeMap[0]), 1, tree, height)) #look bottom       
-        scores.append(checkAxis("y", tree[1] - 1, -1, -1, tree, height)) #look top
+        scores.append(scoreAxisFromTree("x", tree[0] + 1, len(treeMap[0]), 1, tree, height)) #score right
+        scores.append(scoreAxisFromTree("x", tree[0] - 1, -1, -1, tree, height)) #score left    
+        scores.append(scoreAxisFromTree("y", tree[1] + 1, len(treeMap[0]), 1, tree, height)) #score bottom       
+        scores.append(scoreAxisFromTree("y", tree[1] - 1, -1, -1, tree, height)) #score top
 
         highScore = max(highScore, reduce((lambda x, y: x * y), scores))
 
