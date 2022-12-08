@@ -6,68 +6,55 @@ treeMap = []
 for line in inputString:
     treeMap.append(list([int(x) for x in line]))
 
+def checkAxis(axis, start, stop, step, tree, height):
+    score = 0
+
+    for i in range(start, stop, step):
+        score += 1
+        if axis == "x":
+            if treeMap[tree[1]][i] >= height: break
+        else:
+            if treeMap[i][tree[0]] >= height: break
+            
+    return score
+
+def checkVisible(axis, start, stop, step):
+    visible = set()
+
+    for axis1 in range(len(treeMap)):
+        highest = -1
+        for axis2 in range(start, stop, step):
+            if axis == "x":
+                if treeMap[axis2][axis1] > highest: visible.add((axis1, axis2))
+                highest = max(highest, treeMap[axis2][axis1])
+            else:
+                if treeMap[axis1][axis2] > highest: visible.add((axis2, axis1))
+                highest = max(highest, treeMap[axis1][axis2])
+
+    return visible
+
 def findBestSpot():
     visible = set()
-    for x in range(len(treeMap[0])):
-        highestTop, highestBottom = -1, -1
-        for y in range(0,len(treeMap)):
-            if treeMap[y][x] > highestTop:
-                visible.add((x, y))
-                highestTop = treeMap[y][x]
-
-        for y in range(len(treeMap)-1, -1, -1):
-            if treeMap[y][x] > highestBottom:
-                visible.add((x, y))
-                highestBottom = treeMap[y][x]
-
-    for y in range(len(treeMap)):
-        highestLeft, highestRight = -1, -1
-        for x in range(len(treeMap[y])):
-            if treeMap[y][x] > highestLeft:
-                visible.add((x, y))
-                highestLeft = treeMap[y][x]
-
-        for x in range(len(treeMap[y])-1,-1,-1):
-            if treeMap[y][x] > highestRight:
-                visible.add((x, y))
-                highestRight = treeMap[y][x]
-
+    
+    visible.update(checkVisible("x", 0, len(treeMap), 1)) #look from top
+    visible.update(checkVisible("x", len(treeMap)-1, -1, -1)) #look from bottom
+    visible.update(checkVisible("y", 0, len(treeMap), 1)) #look from left
+    visible.update(checkVisible("y", len(treeMap)-1, -1, -1)) #look from right
+    
     print(len(visible))
     
     nonEdges = [(x, y) for (x, y) in visible if (x not in [0, len(treeMap[0])-1] and y not in [0, len(treeMap)-1])]
     
     highScore = 0
+
     for tree in nonEdges:
         height, scores = treeMap[tree[1]][tree[0]], []
-        score = 0
-        for x in range(tree[0] + 1, len(treeMap[0])): #look right
-            score += 1
-            if treeMap[tree[1]][x] >= height: break
-        scores.append(score)
 
-        score = 0
-        for x in range(tree[0] - 1, -1, -1): #look left
-            score += 1
-            if treeMap[tree[1]][x] >= height:
-                break
-                
-        scores.append(score)
+        scores.append(checkAxis("x", tree[0] + 1, len(treeMap[0]), 1, tree, height)) #look right
+        scores.append(checkAxis("x", tree[0] - 1, -1, -1, tree, height)) #look left    
+        scores.append(checkAxis("y", tree[1] + 1, len(treeMap[0]), 1, tree, height)) #look bottom       
+        scores.append(checkAxis("y", tree[1] - 1, -1, -1, tree, height)) #look top
 
-        score = 0
-        for y in range(tree[1] + 1, len(treeMap[0])): #look bottom
-            score += 1
-            if treeMap[y][tree[0]] >= height:
-                break
-                
-        scores.append(score)
-
-        score = 0
-        for y in range(tree[1] - 1, -1, -1): #look top
-            score += 1
-            if treeMap[y][tree[0]] >= height:
-                break
-                
-        scores.append(score)
         highScore = max(highScore, reduce((lambda x, y: x * y), scores))
 
     print(highScore)
