@@ -1,12 +1,12 @@
-from functools import reduce
+from math import lcm
 
 with open("Input/Day 11.txt", "r") as f: inputString = f.read().splitlines()
 
-monkeys, lcm = [], 1
+monkeys = []
 
 def readMonkeys():
-    global lcm
-    currentMonkey = 0
+    currentMonkey, dividerList = 0, []
+
     for line in inputString:
         if line[:6] == "Monkey":
             monkeys.append({"items": [], "op": "", "test": 0, "ifTrue": 0, "ifFalse": 0})
@@ -17,28 +17,31 @@ def readMonkeys():
             monkeys[currentMonkey]["op"] = line.split("=")[1].strip()
         elif "Test" in line:
             monkeys[currentMonkey]["test"] = int(line.split("by")[1].strip())
-            lcm *= monkeys[currentMonkey]["test"]
+            dividerList.append(monkeys[currentMonkey]["test"])
         elif "If true" in line:
             monkeys[currentMonkey]["ifTrue"] = int(line.split("monkey")[1].strip())
         elif "If false" in line:
             monkeys[currentMonkey]["ifFalse"] = int(line.split("monkey")[1].strip())
 
-def monkeyThrow(monkeyList, rounds, worryDecay, useMod):
-    readMonkeys()
-    inspections = [0 for _ in range(len(monkeyList))]
+    return dividerList
+
+def monkeyThrow(rounds, worryDecay):
+    mod = lcm(*readMonkeys())
+    inspections = [0 for _ in range(len(monkeys))]
+    
     for _ in range(rounds):
-        for currentMonkey, monkey in enumerate(monkeyList):
+        for currentMonkey, monkey in enumerate(monkeys):
             for item in monkey["items"]:
                 inspections[currentMonkey] += 1
-                item = eval(monkey["op"].replace("old", str(item)))
-                item = item // worryDecay
+                item = eval(monkey["op"].replace("old", str(item))) // worryDecay
                 if item % monkey["test"] == 0:
-                    monkeyList[monkey["ifTrue"]]["items"].append(item % lcm if useMod else item)
+                    monkeys[monkey["ifTrue"]]["items"].append(item % mod)
                 else:
-                    monkeyList[monkey["ifFalse"]]["items"].append(item % lcm if useMod else item)
+                    monkeys[monkey["ifFalse"]]["items"].append(item % mod)
             monkey["items"] = []
-    inspections.sort(reverse=True)
-    print(inspections[0]*inspections[1])
 
-monkeyThrow(monkeys, 20, 3, False)
-monkeyThrow(monkeys, 10000, 1, True)
+    inspections.sort(reverse=True)
+    print(inspections[0] * inspections[1])
+
+monkeyThrow(20, 3)
+monkeyThrow(10000, 1)
