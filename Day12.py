@@ -7,6 +7,7 @@ def makeHeightMap():
 
     for y, line in enumerate(inputString.splitlines()):
         row = []
+
         for x, c in enumerate(line):
             if c == "S":
                 row.append(0)
@@ -18,6 +19,7 @@ def makeHeightMap():
             else:
                 if c == "a": starts.append((x, y))
                 row.append(ord(c)-97)
+
         HMap.append(row)
 
     return HMap, start, end, starts
