@@ -39,11 +39,11 @@ def findShortestPath(allStarts):
 
         if currentPoint[0] > 0 and HMap[currentPoint[1]][currentPoint[0] - 1] - currentHeight <= 1: 
             candidates.append((distance + 1, (currentPoint[0] - 1, currentPoint[1])))
-        if currentPoint[0] < len(HMap[0]) -1 and HMap[currentPoint[1]][currentPoint[0] + 1] - currentHeight <= 1:
+        if currentPoint[0] < len(HMap[0]) - 1 and HMap[currentPoint[1]][currentPoint[0] + 1] - currentHeight <= 1:
             candidates.append((distance + 1, (currentPoint[0] + 1, currentPoint[1])))
         if currentPoint[1] > 0 and HMap[currentPoint[1] - 1][currentPoint[0]] - currentHeight <= 1: 
             candidates.append((distance + 1, (currentPoint[0], currentPoint[1] - 1)))
-        if currentPoint[1] < len(HMap) -1 and HMap[currentPoint[1] + 1][currentPoint[0]] - currentHeight <= 1: 
+        if currentPoint[1] < len(HMap) - 1 and HMap[currentPoint[1] + 1][currentPoint[0]] - currentHeight <= 1: 
             candidates.append((distance + 1, (currentPoint[0], currentPoint[1] + 1)))
 
 print(findShortestPath(False))
