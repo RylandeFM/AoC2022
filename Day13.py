@@ -1,5 +1,5 @@
 from collections import deque
-from turtle import left
+from time import perf_counter_ns
 
 with open("Input/Day 13.txt", "r") as f: inputString = f.read().splitlines()
 
@@ -64,5 +64,9 @@ def partTwo():
     decoderIndices = [i + 1 for i, item in enumerate([str(list(x)) for x in listToSort]) if item == "[[2]]" or item == "[[6]]"]
     print(decoderIndices[0] * decoderIndices[1])
 
+start = perf_counter_ns()
 partOne()
+print(f'Part one in {(perf_counter_ns()-start)/1000000} ms')
+start = perf_counter_ns()
 partTwo()
+print(f'Part one in {(perf_counter_ns()-start)/1000000} ms')
