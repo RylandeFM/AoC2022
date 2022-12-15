@@ -9,16 +9,16 @@ for line in inputString:
     dataSet.append([(xS, yS), (xB, yB), distance])
 
 def partOne(target):
-    noBeacons = set()
     beaconsOnTarget = set()
+    minX, maxX = 0, 0
 
     for sensor, beacon, distance in dataSet:
         if beacon[1] == target: beaconsOnTarget.add(beacon[0])
         lineImpact = distance - abs(sensor[1] - target)
-        #If sensor is not relevant the range will have the first argument higher, skipping the sensor
-        for x in range(sensor[0] - lineImpact, sensor[0] + lineImpact + 1): noBeacons.add(x)
+        minX = min(sensor[0] - lineImpact, minX)
+        maxX = max(sensor[0] + lineImpact + 1, maxX)
 
-    print(len(noBeacons - beaconsOnTarget))
+    print(maxX-minX-len(beaconsOnTarget))
 
 def partTwo(bound):
     for y in range(bound):
