@@ -20,7 +20,7 @@ def partOne(target):
 
     print(maxX - minX - len(beaconsOnTarget))
 
-def partTwoFaster(bound):
+def partTwo(bound):
     intersects, gradients = set(), set()
 
     for sensor, _, distance in dataSet:
@@ -35,23 +35,23 @@ def partTwoFaster(bound):
     for intersect in intersects:
         furtherAway = 0
         for sensor, _, distance in dataSet:
-            manhattan = abs(sensor[0] - intersect[0]) + abs(sensor[1] - intersect[1])
-            if manhattan > distance:
-                furtherAway += 1
+            if abs(sensor[0] - intersect[0]) + abs(sensor[1] - intersect[1]) > distance: furtherAway += 1
         if furtherAway >= len(dataSet): return (intersect[0] * 4000000) + intersect[1]
 
-def partTwo(bound):
-    for y in range(bound, 0, -1):
-        edges = []
-        for sensor, _, distance in dataSet:
-            lineImpact = distance - abs(sensor[1] - y)
-            edges.append((max(0, min(sensor[0] - lineImpact, bound)), max(0, min(sensor[0] + lineImpact + 1, bound))))
-        edges.sort()
-        expectedStart = 0
-        for start, end in edges:
-            if start > expectedStart: 
-                return (expectedStart * 4000000) + y
-            expectedStart = max(expectedStart, end)
-
 partOne(2000000)
-print(partTwoFaster(4000000))
+print(partTwo(4000000))
+
+#Bruto Force solution
+#def partTwo(bound):
+#    for y in range(bound, 0, -1):
+#        edges = []
+#        for sensor, _, distance in dataSet:
+#            lineImpact = distance - abs(sensor[1] - y)
+#            edges.append((max(0, min(sensor[0] - lineImpact, bound)), max(0, min(sensor[0] + lineImpact + 1, bound))))
+#        edges.sort()
+#        expectedStart = 0
+#        for start, end in edges:
+#            if start > expectedStart: 
+#                return (expectedStart * 4000000) + y
+#            expectedStart = max(expectedStart, end)
+
