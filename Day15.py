@@ -1,5 +1,5 @@
 import re
-
+import time
 with open("Input/Day 15.txt", "r") as f: inputString = f.read().splitlines()
 
 dataSet = []
@@ -32,6 +32,9 @@ def partTwo(bound):
         for start, end in edges:
             if start > expectedStart: return (expectedStart * 4000000) + y
             expectedStart = max(expectedStart, end)
-
+start = time.perf_counter_ns()
 partOne(2000000)
+print(f'{(time.perf_counter_ns()-start)/1000000} ms')
+start = time.perf_counter()
 print(partTwo(4000000))
+print(f'{(time.perf_counter()-start)} s')
