@@ -22,7 +22,7 @@ def dropSand(bottomEdge):
     sandCurrent = (sandStart[0], sandStart[1])
     sandResting = 0
 
-    while (not bottomEdge and sandCurrent[1] <= lowestPoint) or (bottomEdge and sandStart not in blockMap):
+    while sandStart not in blockMap if bottomEdge else  sandCurrent[1] <= lowestPoint:
         #falling
         if bottomEdge and sandCurrent[1] == lowestPoint + 1:
             sandResting += 1
