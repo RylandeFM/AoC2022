@@ -15,15 +15,20 @@ def createBlockMap():
 
     return blockingPoints
 
-def partOne():
+def dropSand(bottomEdge):
     blockMap = createBlockMap()
     lowestPoint = max([y for _, y in blockMap])
     sandStart = (500, 0)
     sandCurrent = (sandStart[0], sandStart[1])
     sandResting = 0
 
-    while sandCurrent[1] <= lowestPoint:
+    while (not bottomEdge and sandCurrent[1] <= lowestPoint) or (bottomEdge and sandStart not in blockMap):
         #falling
+        if bottomEdge and sandCurrent[1] == lowestPoint + 1:
+            sandResting += 1
+            blockMap.add(sandCurrent)
+            sandCurrent = (sandStart[0], sandStart[1])
+            continue
         if (sandCurrent[0], sandCurrent[1] + 1) not in blockMap: 
             sandCurrent = (sandCurrent[0], sandCurrent[1] + 1)
             continue
@@ -41,36 +46,5 @@ def partOne():
 
     print(sandResting)
 
-def partTwo():
-    blockMap = createBlockMap()
-    lowestPoint = max([y for _, y in blockMap])
-    sandStart = (500, 0)
-    sandCurrent = (sandStart[0], sandStart[1])
-    sandResting = 0
-
-    while sandStart not in blockMap:
-        #falling
-        if sandCurrent[1] == lowestPoint + 1:
-            sandResting += 1
-            blockMap.add(sandCurrent)
-            sandCurrent = (sandStart[0], sandStart[1])
-            continue
-        elif (sandCurrent[0], sandCurrent[1] + 1) not in blockMap: 
-            sandCurrent = (sandCurrent[0], sandCurrent[1] + 1)
-            continue
-        elif (sandCurrent[0] - 1, sandCurrent[1] + 1) not in blockMap: 
-            sandCurrent = (sandCurrent[0] - 1, sandCurrent[1] + 1)
-            continue
-        elif (sandCurrent[0] + 1, sandCurrent[1] + 1) not in blockMap: 
-            sandCurrent = (sandCurrent[0] + 1, sandCurrent[1] + 1)
-            continue
-        
-        #no further
-        sandResting += 1
-        blockMap.add(sandCurrent)
-        sandCurrent = (sandStart[0], sandStart[1])
-
-    print(sandResting)
-
-partOne()
-partTwo()
+dropSand(False)
+dropSand(True)
