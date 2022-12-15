@@ -36,7 +36,7 @@ def partTwo(bound):
         furtherAway = 0
         for sensor, _, distance in dataSet:
             if abs(sensor[0] - intersect[0]) + abs(sensor[1] - intersect[1]) > distance: furtherAway += 1
-        if furtherAway >= len(dataSet): return (intersect[0] * 4000000) + intersect[1]
+        if furtherAway == len(dataSet): return (intersect[0] * 4000000) + intersect[1]
 
 partOne(2000000)
 print(partTwo(4000000))
