@@ -8,7 +8,6 @@ for line in inputString:
     distance = abs(xS - xB) + abs(yS - yB)
     dataSet.append([(xS, yS), (xB, yB), distance])
 
-
 def partOne(target):
     noBeacons = set()
     beaconsOnTarget = set()
